@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="sourceStepsDiv">Steps</div>
+      <div id="sourceDiv">Objects</div>
+      <div id="testDiv">Test</div>
+
+      <div
+        id="dropTarget"
+        ondragover="controller.dragOverHandler(event)"
+        ondrop="controller.dropHandler(event)"
+        ondragleave="controller.dragLeaveHandler(event)"
+        ondragenter="controller.dragEnterHandler(event)"
+      >
+        this is target
+      </div>
+
+      <button onclick="controller.exportData(event)">Export</button>
+    </div>
+
+    <script type="module">
+      import Controller from "./js/script.js";
+      const controller = new Controller();
+      window.controller = controller;
+    </script>
+  </body>
+</html>

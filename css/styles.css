@@ -1,0 +1,63 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
+
+  #dropTarget {
+    border: 2px dashed #000;
+    padding: 10px;
+    width: 200px;
+    min-height: 100px;
+  }
+
+  #sourceDiv {
+    border: 2px dashed darkgoldenrod;
+    padding: 10px;
+    width: 100px;
+    min-height: 10px;
+  }
+
+  #sourceStepsDiv {
+    border: 2px dashed rgb(231, 78, 31);
+    padding: 10px;
+    width: 200px;
+    min-height: 10px;
+  }
+
+  #draggableContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tableClass,
+  th,
+  td {
+    border: 1px solid;
+  }
+
+  .hexagone {
+    background-color: #3498db;
+    clip-path: polygon(
+      63% 21%,
+      70% 34%,
+      100% 35%,
+      100% 70%,
+      100% 100%,
+      50% 100%,
+      0 100%,
+      0% 70%,
+      0% 35%,
+      8% 23%
+    );
+  }
