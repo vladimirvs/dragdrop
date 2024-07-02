@@ -1,54 +1,60 @@
 import DataObject from "./DataObject.js";
 
 export default class Controller {
-    objectsData = [];
-    stepsData = [];
-    cloneCounter = 0;
-    isInsideDropTarget = false;
-    dataObjects = [];
-   
+  objectsData = [];
+  stepsData = [];
+  cloneCounter = 0;
+  isInsideDropTarget = false;
+  dataObjects = [];
+
+  targetData = [];
+
   constructor() {
-    
-    
-
     this.objectsData = [
-        {
-          id: "drag1",
-          content: "User",
-          additionalInfo: "Info for draggable 1",
-          fields: ["id", "name", "age"],
-        },
-        {
-          id: "drag2",
-          content: "Address",
-          additionalInfo: "Info for draggable 2",
-          fields: ["id", "street", "number", "postcode"],
-        },
-        {
-          id: "drag3",
-          content: "Animal",
-          additionalInfo: "Info for draggable 3",
-          fields: ["id", "name", "nickname", "age"],
-        },
-      ];
-  
-      this.stepsData = [
-        {
-          id: "step1",
-          content: "Given these objects:",
-        },
-        {
-          id: "step2",
-          content: "When this is received:",
-        },
-      ];
+      {
+        id: "drag1",
+        content: "User",
+        additionalInfo: "Info for draggable 1",
+        fields: ["id", "name", "age"],
+      },
+      {
+        id: "drag2",
+        content: "Address",
+        additionalInfo: "Info for draggable 2",
+        fields: ["id", "street", "number", "postcode"],
+      },
+      {
+        id: "drag3",
+        content: "Animal",
+        additionalInfo: "Info for draggable 3",
+        fields: ["id", "name", "nickname", "age"],
+      },
+    ];
 
-   
+    this.stepsData = [
+      {
+        id: "step1",
+        content: "Given these objects:",
+      },
+      {
+        id: "step2",
+        content: "When this is received:",
+      },
+    ];
 
     this.dataObjects = [
-      new DataObject("Content1", "Additional info1", ["id", "name", "nickname", "age"]),
-      new DataObject("Content2", "Additional info2", ["id", "ka", "okokok", "99"]),
-      new DataObject("Content3", "Additional info3", ["id", "ookk", "nickname", "age"]),
+      new DataObject(
+        "Content1",
+        "Additional info1",
+        ["id", "name", "nickname", "age"],
+        [{ id: "1", name: "Name1", nickname: "NickName1", age: "22" }]
+      ),
+      new DataObject(
+        "Content2",
+        "Additional info2",
+        ["id", "ka", "okokok", "aje"],
+        [{ id: "1", okokok: "OKOK1",  aje: "22" }]
+      ),
     ];
     this.dataObjects.forEach((dao) => console.log(dao));
 
@@ -102,16 +108,16 @@ export default class Controller {
 
     // Set the JSON string in the dataTransfer object
     ev.dataTransfer.setData("application/json", JSON.stringify(elementData));
-  }
+  };
 
-  dragOverHandler= (ev) => {
+  dragOverHandler = (ev) => {
     ev.preventDefault();
     console.log(`Dragging over ${ev.target.id}`);
 
     ev.dataTransfer.dropEffect = "copy";
-  }
+  };
 
-  dropHandler= (ev) => {
+  dropHandler = (ev) => {
     console.log(`Inside drop handler`);
     ev.preventDefault();
     const data = ev.dataTransfer.getData("text/plain");
@@ -126,14 +132,10 @@ export default class Controller {
       cloned.id = `${data}-copy-${this.cloneCounter++}`;
 
       console.log("Inner html before: " + cloned.innerHTML);
-      if (elementData.fields) {
-        let columns = elementData.fields.map((el) => `<td>${el}</td>`);
-        console.log("Columns: " + columns.join(""));
-        cloned.innerHTML = `<table class="tableClass"><tr>${columns.join(
-          ""
-        )}</tr></table>`;
-        cloned.class = "tableClass";
-      }
+
+      this.targetData.push(elementData);
+      let recreatedInstance = Object.assign(new DataObject(), elementData);
+      cloned.innerHTML = recreatedInstance.asTargetHtml();
       console.log(cloned.innerHTML);
       cloned.addEventListener("dragstart", this.dragstartHandler); // Attach dragstart event to the clone
       cloned.addEventListener("dragend", this.dragEndHandler);
@@ -142,25 +144,25 @@ export default class Controller {
     } else {
       console.log(`Couldn't find data in dropHandler`);
     }
-  }
+  };
 
-  dragEnterHandler= (ev) => {
-    console.log('Inside dragEnterHandler');
+  dragEnterHandler = (ev) => {
+    console.log("Inside dragEnterHandler");
     if (ev.target.id === "dropTarget") {
       this.isInsideDropTarget = true;
       console.log("Drag enter");
     }
-  }
+  };
 
-  dragLeaveHandler= (ev) => {
-    console.log('Inside dragLeaveHandler');
+  dragLeaveHandler = (ev) => {
+    console.log("Inside dragLeaveHandler");
     if (ev.target.id === "dropTarget") {
-        this.isInsideDropTarget = false;
+      this.isInsideDropTarget = false;
       console.log("Drag left drop target");
     }
-  }
+  };
 
-  dragEndHandler= (ev) => {
+  dragEndHandler = (ev) => {
     console.log(`Drag ended ${ev.target.id}`);
 
     ev.preventDefault();
@@ -178,10 +180,19 @@ export default class Controller {
         original.parentNode.removeChild(original);
       }
     }
-  }
+  };
 
   exportData = (ev) => {
-    console.log("Data export requested "+ev);
-    
-  }
+    console.log("Data export requested " + ev);
+
+    this.targetData.map((el) => {
+      console.log("EL IS "+JSON.stringify(el));
+      let recreatedInstance = Object.assign(new DataObject(), el);
+      recreatedInstance.asTargetHtml();
+      recreatedInstance.onBtnUpdate();
+      console.log(recreatedInstance.asCucumber());
+      const textarea = document.getElementById("results");
+      textarea.append(recreatedInstance.asCucumber() + "\n");
+    });
+  };
 }

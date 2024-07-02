@@ -40,24 +40,27 @@
     justify-content: center;
   }
 
+  .dataObjectDiv {
+    background-color: #E8F0FF;
+    color: #000000;
+    border: 1px solid #6D6D6D;
+    padding: 3px;
+  }
+
+  
+  .results {
+    flex:2;
+  }
+
+  #myGrid {
+    flex:3;
+  }
+
   .tableClass,
   th,
   td {
     border: 1px solid;
   }
 
-  .hexagone {
-    background-color: #3498db;
-    clip-path: polygon(
-      63% 21%,
-      70% 34%,
-      100% 35%,
-      100% 70%,
-      100% 100%,
-      50% 100%,
-      0 100%,
-      0% 70%,
-      0% 35%,
-      8% 23%
-    );
-  }
+
+  

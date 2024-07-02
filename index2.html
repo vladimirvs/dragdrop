@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -20,12 +21,26 @@
       </div>
 
       <button onclick="controller.exportData(event)">Export</button>
+
+      <div class="results">
+        <textarea id="results"></textarea>
+      </div>
+
+      <div id="csvResult">result</div>
+
+      <!-- Your grid container -->
+<div id="myGrid" class="ag-theme-quartz" style="height: 300px"></div>
     </div>
+   
 
     <script type="module">
       import Controller from "./js/script.js";
       const controller = new Controller();
       window.controller = controller;
+
+
+
+
     </script>
   </body>
 </html>
