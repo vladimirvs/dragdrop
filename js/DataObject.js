@@ -70,7 +70,7 @@ const gridOptions = {
   // Your Javascript code to create the data grid
   const myGridElement = document.querySelector('#myGrid');
   this.gridApi = agGrid.createGrid(myGridElement, gridOptions);
-  console.log("THIS GRID API = "+this.gridApi);
+  //console.log("THIS GRID API = "+this.gridApi);
   
   
 
@@ -82,16 +82,16 @@ const gridOptions = {
 
    getParams() {
     return {
-      prependContent: getValue("#prependContent"),
-      appendContent: getValue("#appendContent"),
-      suppressQuotes: undefined,
-      columnSeparator: undefined,
+      prependContent: '|',
+      appendContent: '|',
+      suppressQuotes: true,
+      columnSeparator: '|',
     };
   }
 
   
  onBtnUpdate() {
-    let csv = this.gridApi.getDataAsCsv();
+    let csv = this.gridApi.getDataAsCsv(this.getParams());
     console.log("CSV IS "+csv);
     document.querySelector("#csvResult").innerText = csv;
   }

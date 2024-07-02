@@ -133,9 +133,11 @@ export default class Controller {
 
       console.log("Inner html before: " + cloned.innerHTML);
 
-      this.targetData.push(elementData);
-      let recreatedInstance = Object.assign(new DataObject(), elementData);
-      cloned.innerHTML = recreatedInstance.asTargetHtml();
+      const foundDao = this.dataObjects.find(dao => dao.id === elementData.id);
+
+      this.targetData.push(foundDao);
+      //let recreatedInstance = Object.assign(new DataObject(), elementData);
+      cloned.innerHTML = foundDao.asTargetHtml();
       console.log(cloned.innerHTML);
       cloned.addEventListener("dragstart", this.dragstartHandler); // Attach dragstart event to the clone
       cloned.addEventListener("dragend", this.dragEndHandler);
@@ -186,13 +188,17 @@ export default class Controller {
     console.log("Data export requested " + ev);
 
     this.targetData.map((el) => {
-      console.log("EL IS "+JSON.stringify(el));
-      let recreatedInstance = Object.assign(new DataObject(), el);
-      recreatedInstance.asTargetHtml();
-      recreatedInstance.onBtnUpdate();
-      console.log(recreatedInstance.asCucumber());
+    //  console.log("EL IS "+JSON.stringify(el));
+
+
+
+     // let recreatedInstance = Object.assign(new DataObject(), el);
+     
+    // el.asTargetHtml();
+     el.onBtnUpdate();
+      console.log(el.asCucumber());
       const textarea = document.getElementById("results");
-      textarea.append(recreatedInstance.asCucumber() + "\n");
+      textarea.append(el.asCucumber() + "\n");
     });
   };
 }
